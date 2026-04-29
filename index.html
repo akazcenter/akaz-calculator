@@ -1,127 +1,44 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>حاسبة المكافآت - عكاز</title>
-
-<style>
-body{
-    font-family:Arial;
-    background:#f5f7fa;
-    direction:rtl;
-    margin:0;
-}
-
-.container{
-    max-width:400px;
-    margin:40px auto;
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-.logo{
-    width:90px;
-    display:block;
-    margin:0 auto 10px;
-}
-
-h2{
-    text-align:center;
-    color:#1F3A5F;
-    margin-bottom:5px;
-}
-
-.subtitle{
-    text-align:center;
-    color:#777;
-    margin-bottom:20px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border:1px solid #ddd;
-    border-radius:8px;
-    font-size:16px;
-}
-
-button{
-    width:100%;
-    padding:12px;
-    background:#1F3A5F;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
-    margin-top:10px;
-}
-
-.result{
-    margin-top:15px;
-    padding:15px;
-    background:#e8f5e9;
-    border-radius:8px;
-    text-align:center;
-    font-size:18px;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<!-- 🔥 الشعار -->
-<img src="logo.png" style="width:500px;display:block;margin:0 auto 20px;"><h2>حاسبة المكافآت</h2>
-<div class="subtitle">اكتب الأرقام وشوف نتيجتك مباشرة</div>
-
-<input type="number" id="income" placeholder="الدخل المحقق">
-<input type="number" id="google" placeholder="عدد قوقل ماب">
-<input type="number" id="story" placeholder="عدد الستوري">
-
-<button onclick="calc()">احسب</button>
-
-<div id="result" class="result">-</div>
-
-</div>
-
 <script>
 function calc(){
+let income = Number(document.getElementById('income').value);
+let google = Number(document.getElementById('google').value);
+let story = Number(document.getElementById('story').value);
 
-let income = document.getElementById("income").value;
-let google = document.getElementById("google").value;
-let story = document.getElementById("story").value;
+let percent = 0;
+let bonus = 0;
+let reward = 0;
+let msg = "";
 
-if(!income){ 
-    document.getElementById("result").innerHTML = "اكتب الدخل أول";
-    return;
+if(income < 40000){
+    msg = "باقي لك " + (40000 - income).toLocaleString() + " ريال وتدخل المستوى الأول";
+    reward = 0;
+}
+else if(income < 50000){
+    percent = 0.03;
+    msg = "ما شاء الله، بداية ممتازة، باقي لك " + (50000 - income).toLocaleString() + " ريال وتوصل المستوى الثاني";
+}
+else if(income < 60000){
+    percent = 0.05;
+    msg = "واضح تقدمك، باقي لك " + (60000 - income).toLocaleString() + " ريال وتوصل المستوى الثالث، الله يوفقك";
+}
+else if(income < 70000){
+    percent = 0.06;
+    msg = "ما شاء الله، قريب من القمة، باقي لك " + (70000 - income).toLocaleString() + " ريال وتوصل المستوى الرابع، الله يبارك لك";
+}
+else{
+    percent = 0.07;
+    msg = "ما شاء الله، وصلت أعلى مستوى، الله يبارك لك ويزيدك";
 }
 
-let bonus = 0;
+if(google >= 6 && story >= 6 && income >= 40000){
+    bonus = 0.01;
+}
 
 if(income >= 40000){
-    bonus = income * 0.05;
+    reward = income * (percent + bonus);
 }
 
-if(google >= 2){
-    bonus += 10;
-}
-
-if(story >= 4){
-    bonus += 20;
-}
-
-document.getElementById("result").innerHTML = 
-"المكافأة: " + bonus + " ريال";
-
+document.getElementById('output').innerHTML =
+msg + "<br><br>المكافأة: " + reward.toLocaleString() + " ريال";
 }
 </script>
-
-</body>
-</html>
