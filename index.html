@@ -1,44 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة المكافآت - مركز عكاز</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Tahoma,sans-serif;
+  background:#f4f6f9;
+  direction:rtl;
+  color:#1f2937;
+}
+.container{
+  max-width:430px;
+  margin:35px auto;
+  background:#fff;
+  padding:28px 22px;
+  border-radius:22px;
+  box-shadow:0 12px 35px rgba(0,0,0,.08);
+}
+.logo{
+  width:260px;
+  max-width:100%;
+  display:block;
+  margin:0 auto 24px;
+  border-radius:12px;
+}
+h1{
+  margin:0;
+  text-align:center;
+  color:#1f3a5f;
+  font-size:30px;
+}
+.subtitle{
+  text-align:center;
+  color:#666;
+  margin:14px 0 26px;
+  font-size:17px;
+}
+input{
+  width:100%;
+  height:56px;
+  padding:12px 16px;
+  margin-bottom:13px;
+  border:1px solid #d7dce2;
+  border-radius:12px;
+  font-size:18px;
+  text-align:right;
+  outline:none;
+}
+input:focus{
+  border-color:#1f3a5f;
+  box-shadow:0 0 0 3px rgba(31,58,95,.12);
+}
+button{
+  width:100%;
+  height:58px;
+  border:0;
+  border-radius:12px;
+  background:#1f3a5f;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+  margin-top:5px;
+}
+.result{
+  margin-top:20px;
+  padding:18px;
+  border-radius:14px;
+  background:#edf8ef;
+  color:#166534;
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+  line-height:1.9;
+  min-height:70px;
+}
+.result.warning{
+  background:#fff1f2;
+  color:#991b1b;
+}
+.result.normal{
+  background:#eef5ff;
+  color:#1f3a5f;
+}
+.small{
+  font-size:15px;
+  color:#6b7280;
+  text-align:center;
+  margin-top:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <img class="logo" src="logo.png" alt="مركز عكاز">
+
+  <h1>حاسبة المكافآت</h1>
+  <div class="subtitle">اكتب الأرقام وشوف نتيجتك مباشرة</div>
+
+  <input type="number" id="income" placeholder="الدخل المحقق">
+  <input type="number" id="google" placeholder="عدد تعليقات قوقل ماب">
+  <input type="number" id="story" placeholder="عدد ستوريات إنستقرام">
+
+  <button onclick="calc()">احسب</button>
+
+  <div class="result normal" id="output">—</div>
+
+  <div class="small">ملاحظة: المكافأة تحتسب على إجمالي دخل الربع</div>
+
+</div>
+
 <script>
 function calc(){
-let income = Number(document.getElementById('income').value);
-let google = Number(document.getElementById('google').value);
-let story = Number(document.getElementById('story').value);
 
-let percent = 0;
-let bonus = 0;
-let reward = 0;
-let msg = "";
+  let income = Number(document.getElementById('income').value);
+  let google = Number(document.getElementById('google').value);
+  let story = Number(document.getElementById('story').value);
+  let output = document.getElementById('output');
 
-if(income < 40000){
-    msg = "باقي لك " + (40000 - income).toLocaleString() + " ريال وتدخل المستوى الأول";
-    reward = 0;
-}
-else if(income < 50000){
+  let percent = 0;
+  let bonus = 0;
+  let reward = 0;
+  let remaining = 0;
+  let msg = "";
+  let level = "";
+  let nextLevel = "";
+
+  if(!income && income !== 0){
+    output.className = "result warning";
+    output.innerHTML = "اكتب الدخل المحقق أولاً";
+    return;
+  }
+
+  if(income < 40000){
+    percent = 0;
+    level = "لم يصل بعد";
+    nextLevel = "المستوى الأول";
+    remaining = 40000 - income;
+    msg = "باقي لك " + remaining.toLocaleString() + " ريال وتدخل المستوى الأول";
+  }
+  else if(income < 50000){
     percent = 0.03;
-    msg = "ما شاء الله، بداية ممتازة، باقي لك " + (50000 - income).toLocaleString() + " ريال وتوصل المستوى الثاني";
-}
-else if(income < 60000){
+    level = "المستوى الأول";
+    nextLevel = "المستوى الثاني";
+    remaining = 50000 - income;
+    msg = "ما شاء الله، بداية ممتازة، باقي لك " + remaining.toLocaleString() + " ريال وتوصل المستوى الثاني";
+  }
+  else if(income < 60000){
     percent = 0.05;
-    msg = "واضح تقدمك، باقي لك " + (60000 - income).toLocaleString() + " ريال وتوصل المستوى الثالث، الله يوفقك";
-}
-else if(income < 70000){
+    level = "المستوى الثاني";
+    nextLevel = "المستوى الثالث";
+    remaining = 60000 - income;
+    msg = "واضح تقدمك، باقي لك " + remaining.toLocaleString() + " ريال وتوصل المستوى الثالث، الله يوفقك";
+  }
+  else if(income < 70000){
     percent = 0.06;
-    msg = "ما شاء الله، قريب من القمة، باقي لك " + (70000 - income).toLocaleString() + " ريال وتوصل المستوى الرابع، الله يبارك لك";
-}
-else{
+    level = "المستوى الثالث";
+    nextLevel = "المستوى الرابع";
+    remaining = 70000 - income;
+    msg = "ما شاء الله، قريب من القمة، باقي لك " + remaining.toLocaleString() + " ريال وتوصل المستوى الرابع، الله يبارك لك";
+  }
+  else{
     percent = 0.07;
+    level = "المستوى الرابع";
+    nextLevel = "أعلى مستوى";
+    remaining = 0;
     msg = "ما شاء الله، وصلت أعلى مستوى، الله يبارك لك ويزيدك";
-}
+  }
 
-if(google >= 6 && story >= 6 && income >= 40000){
+  if(income >= 40000 && google >= 6 && story >= 6){
     bonus = 0.01;
-}
+  }
 
-if(income >= 40000){
+  if(income >= 40000){
     reward = income * (percent + bonus);
-}
+  } else {
+    reward = 0;
+  }
 
-document.getElementById('output').innerHTML =
-msg + "<br><br>المكافأة: " + reward.toLocaleString() + " ريال";
+  let totalPercent = (percent + bonus) * 100;
+
+  let interactionMsg = "";
+  if(income >= 40000){
+    if(bonus > 0){
+      interactionMsg = "تم تحقيق بونس التفاعل +1%";
+    }else{
+      let needGoogle = Math.max(0, 6 - google);
+      let needStory = Math.max(0, 6 - story);
+      interactionMsg = "باقي " + needGoogle + " قوقل ماب و " + needStory + " ستوريات للحصول على +1%";
+    }
+  }else{
+    interactionMsg = "بونس التفاعل يبدأ بعد دخول المستوى الأول";
+  }
+
+  if(income < 40000){
+    output.className = "result warning";
+  }else if(income >= 70000){
+    output.className = "result";
+  }else{
+    output.className = "result normal";
+  }
+
+  output.innerHTML =
+    msg +
+    "<br>المستوى الحالي: " + level +
+    "<br>النسبة: " + totalPercent.toFixed(0) + "%" +
+    "<br>المكافأة: " + reward.toLocaleString(undefined,{maximumFractionDigits:0}) + " ريال" +
+    "<br>" + interactionMsg;
 }
 </script>
+
+</body>
+</html>
