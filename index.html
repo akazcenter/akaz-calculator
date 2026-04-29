@@ -1,4 +1,3 @@
-<img src="logo.png" style="width:100px;display:block;margin:0 auto 15px;">
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -23,9 +22,22 @@ body{
     box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
+.logo{
+    width:90px;
+    display:block;
+    margin:0 auto 10px;
+}
+
 h2{
     text-align:center;
     color:#1F3A5F;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:20px;
 }
 
 input{
@@ -39,35 +51,23 @@ input{
 
 button{
     width:100%;
-    padding:14px;
+    padding:12px;
     background:#1F3A5F;
     color:#fff;
     border:none;
     border-radius:8px;
     font-size:16px;
     cursor:pointer;
-}
-
-button:hover{
-    background:#163049;
+    margin-top:10px;
 }
 
 .result{
     margin-top:15px;
     padding:15px;
-    border-radius:8px;
     background:#e8f5e9;
-    color:#1b5e20;
-    font-weight:bold;
+    border-radius:8px;
     text-align:center;
     font-size:18px;
-}
-
-.title{
-    text-align:center;
-    margin-bottom:10px;
-    color:#777;
-    font-size:14px;
 }
 </style>
 
@@ -77,8 +77,11 @@ button:hover{
 
 <div class="container">
 
+<!-- 🔥 الشعار -->
+<img src="logo.png" class="logo">
+
 <h2>حاسبة المكافآت</h2>
-<div class="title">اكتب الأرقام وشوف نتيجتك مباشرة</div>
+<div class="subtitle">اكتب الأرقام وشوف نتيجتك مباشرة</div>
 
 <input type="number" id="income" placeholder="الدخل المحقق">
 <input type="number" id="google" placeholder="عدد قوقل ماب">
@@ -86,37 +89,39 @@ button:hover{
 
 <button onclick="calc()">احسب</button>
 
-<div class="result" id="output">—</div>
+<div id="result" class="result">-</div>
 
 </div>
 
 <script>
 function calc(){
-let income = Number(document.getElementById('income').value);
-let msg = "";
-let remaining = 0;
 
-if(income < 40000){
-remaining = 40000 - income;
-msg = "باقي لك "+remaining+" ريال وتدخل المستوى الأول";
-}
-else if(income < 50000){
-remaining = 50000 - income;
-msg = "ما شاء الله، بداية ممتازة، باقي لك "+remaining+" ريال وتوصل المستوى الثاني";
-}
-else if(income < 60000){
-remaining = 60000 - income;
-msg = "واضح تقدمك، باقي لك "+remaining+" ريال وتوصل المستوى الثالث";
-}
-else if(income < 70000){
-remaining = 70000 - income;
-msg = "ما شاء الله، قريب من القمة، باقي لك "+remaining+" ريال وتوصل المستوى الرابع";
-}
-else{
-msg = "ما شاء الله، وصلت أعلى مستوى";
+let income = document.getElementById("income").value;
+let google = document.getElementById("google").value;
+let story = document.getElementById("story").value;
+
+if(!income){ 
+    document.getElementById("result").innerHTML = "اكتب الدخل أول";
+    return;
 }
 
-document.getElementById('output').innerHTML = msg;
+let bonus = 0;
+
+if(income >= 40000){
+    bonus = income * 0.05;
+}
+
+if(google >= 2){
+    bonus += 10;
+}
+
+if(story >= 4){
+    bonus += 20;
+}
+
+document.getElementById("result").innerHTML = 
+"المكافأة: " + bonus + " ريال";
+
 }
 </script>
 
