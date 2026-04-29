@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة المكافآت - عكاز</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#f5f7fa;
+    direction:rtl;
+    margin:0;
+}
+
+.container{
+    max-width:400px;
+    margin:40px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    color:#1F3A5F;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#1F3A5F;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#163049;
+}
+
+.result{
+    margin-top:15px;
+    padding:15px;
+    border-radius:8px;
+    background:#e8f5e9;
+    color:#1b5e20;
+    font-weight:bold;
+    text-align:center;
+    font-size:18px;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:10px;
+    color:#777;
+    font-size:14px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>حاسبة المكافآت</h2>
+<div class="title">اكتب الأرقام وشوف نتيجتك مباشرة</div>
+
+<input type="number" id="income" placeholder="الدخل المحقق">
+<input type="number" id="google" placeholder="عدد قوقل ماب">
+<input type="number" id="story" placeholder="عدد الستوري">
+
+<button onclick="calc()">احسب</button>
+
+<div class="result" id="output">—</div>
+
+</div>
+
+<script>
+function calc(){
+let income = Number(document.getElementById('income').value);
+let msg = "";
+let remaining = 0;
+
+if(income < 40000){
+remaining = 40000 - income;
+msg = "باقي لك "+remaining+" ريال وتدخل المستوى الأول";
+}
+else if(income < 50000){
+remaining = 50000 - income;
+msg = "ما شاء الله، بداية ممتازة، باقي لك "+remaining+" ريال وتوصل المستوى الثاني";
+}
+else if(income < 60000){
+remaining = 60000 - income;
+msg = "واضح تقدمك، باقي لك "+remaining+" ريال وتوصل المستوى الثالث";
+}
+else if(income < 70000){
+remaining = 70000 - income;
+msg = "ما شاء الله، قريب من القمة، باقي لك "+remaining+" ريال وتوصل المستوى الرابع";
+}
+else{
+msg = "ما شاء الله، وصلت أعلى مستوى";
+}
+
+document.getElementById('output').innerHTML = msg;
+}
+</script>
+
+</body>
+</html>
